@@ -1,7 +1,20 @@
+'use client'
+
 import Link from "next/link";
 import styles from "./styles.module.css";
+import { useEffect, useState } from "react";
+import { invoke } from "@tauri-apps/api/tauri";
 
-const CreateTeam = () => {
+export default function CreateTeam() {
+
+  useEffect(() => {
+    invoke<Array<string>>('get_games')
+      .then(res => setGames(res))
+      .catch(console.error)
+  }, [])
+
+  const [games, setGames] = useState<Array<string>>([]);
+
   return (
     <div className={styles.centerBox}>
       <Link href="/">
@@ -14,8 +27,9 @@ const CreateTeam = () => {
       <div>
         <label htmlFor="game" className={styles.label}>Select your game!:</label>
         <select name="game" className={styles.input}>
-          <option value="platinum">Platinum</option>
-          <option value="black-white">Black and White</option>
+          {games.map(gs => (
+            <option value={gs} key={gs}>{gs}</option>
+          ))}
         </select>
       </div>
     </div>
@@ -31,6 +45,3 @@ const CreateTeam = () => {
     // List of encounters
     // Encounter {location: String, pokemon : Option<Pokemon>, encounter_status: caught/missed/not done}    ----> initialise to None
     // Pokemon {name: String, sprite: String, status: alive/dead}
-
-
-export default CreateTeam;
