@@ -1,0 +1,15 @@
+.centerBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.vertical {
+    flex-direction: column;
+}
+
+.button {
+    margin-left: 5px;
+    margin-right: 5px;
+}
