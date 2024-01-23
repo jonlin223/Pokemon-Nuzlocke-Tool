@@ -1,13 +1,13 @@
-pub enum Games {
+pub enum Game {
     Platinum,
     BlackWhite
 }
 
-impl From<Games> for String {
-    fn from(value: Games) -> Self {
+impl From<Game> for String {
+    fn from(value: Game) -> Self {
         match value {
-            Games::Platinum => String::from("Pokémon Platinum"),
-            Games::BlackWhite => String::from("Pokémon Black & White"),
+            Game::Platinum => String::from("Pokémon Platinum"),
+            Game::BlackWhite => String::from("Pokémon Black & White"),
         }
     }
 }

@@ -37,7 +37,6 @@ export default function CreateTeam() {
 }
 
 // TODO
-// Backend function to get available games
 // Backend function to create a team given a name and a game
   // Check if name already taken, if so, send error
   // Also, some error if no name given

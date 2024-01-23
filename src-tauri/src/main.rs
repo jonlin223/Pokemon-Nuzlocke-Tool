@@ -1,7 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use app::games::Games;
+use app::{games::Game, teams::Teams};
 
 fn main() {
   tauri::Builder::default()
@@ -17,5 +17,10 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 fn get_games() -> Vec<String> {
-    vec![Games::Platinum.into(), Games::BlackWhite.into()]
+    vec![Game::Platinum.into(), Game::BlackWhite.into()]
+}
+
+#[tauri::command]
+fn create_team(teams: tauri::State<Teams>, game: &str, name: &str) -> Result<(), String> {
+    todo!()
 }
