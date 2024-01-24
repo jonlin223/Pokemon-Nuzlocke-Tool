@@ -1,7 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use app::{games::Game, teams::Teams};
+use app::{games::Game, pokedex::get_locations, teams::Teams};
 
 fn main() {
   tauri::Builder::default()
@@ -12,6 +12,7 @@ fn main() {
 
 #[tauri::command]
 fn greet(name: &str) -> String {
+    println!("{:?}", get_locations(Game::Platinum));
     format!("Hello {}!", name)
 }
 
