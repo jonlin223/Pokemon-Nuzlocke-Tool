@@ -10,7 +10,7 @@ struct Pokedex {
     pokemon: Vec<Pokemon>
 }
 
-pub fn get_locations(game: Game) -> Vec<String> {
+pub fn get_locations(game: &Game) -> Vec<String> {
     let file = match game {
         Game::Platinum => "platinum.json",
         Game::BlackWhite => "black-white.json",
@@ -24,7 +24,7 @@ pub fn get_locations(game: Game) -> Vec<String> {
     pokedex.locations
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct Pokemon {
     name: String,
     types:  Vec<String>,
