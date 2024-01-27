@@ -26,7 +26,10 @@ fn get_games() -> Vec<String> {
 
 #[tauri::command]
 fn create_team(teams: tauri::State<Mutex<Teams>>, game_str: &str, name: &str) -> Result<(), String> {
-    println!("Are we here?");
-    let game = game_str.try_into()?;
-    teams.lock().unwrap().add_team(game, name)
+    if name == "" {
+        Err(String::from("Must enter a team name!"))
+    } else {
+        let game = game_str.try_into()?;
+        teams.lock().unwrap().add_team(game, name)
+    }
 }

@@ -4,7 +4,7 @@ use crate::{games::Game, pokedex::{get_locations, Pokemon}};
 
 #[derive(Debug)]
 pub struct Teams {
-    teams: HashMap<String, Team>
+    teams: HashMap<u16, Team>
 }
 
 impl Teams {
@@ -14,7 +14,7 @@ impl Teams {
 
     pub fn add_team(&mut self, game: Game, name: &str) -> Result<(), String> {
         // Check that team doesn't already exist
-        if self.teams.contains_key(name) {
+        if self.teams.iter().any(|t| t.1.name == name) {
             Err(format!("Team with name {name} already exists."))
         }
         
@@ -24,14 +24,22 @@ impl Teams {
                 .into_iter()
                 .map(|location| Encounter {location, pokemon: None, status: EncounterStatus::Incomplete })
                 .collect();
-            
-            let team = Team { game, encounters };
 
-            self.teams.insert(name.to_string(), team);
+            let team = Team { name: name.to_string(), game, encounters };
+
+            self.teams.insert(self.generate_id(), team);
             println!("{:?}", self.teams);
             Ok(())
         }
 
+    }
+
+    fn generate_id(&self) -> u16 {
+        let mut id = 1;
+        while self.teams.contains_key(&id) {
+            id += 1;
+        }
+        return id;
     }
 
     // TODO create a function that loads teams from the teams database file
@@ -39,15 +47,9 @@ impl Teams {
 
 #[derive(Debug)]
 struct Team {
+    name: String,
     game: Game,
-    encounters: Vec<Encounter>
-}
-
-impl Team {
-    fn generate_team(game: Game) -> Self {
-        // TODO this function needs to look at our pokedex files and generate teams based off that
-        Team { game, encounters: vec![] }
-    }
+    encounters: Vec<Encounter>,
 }
 
 #[derive(Debug)]
