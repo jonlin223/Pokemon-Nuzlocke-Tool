@@ -3,7 +3,7 @@
 
 use std::sync::Mutex;
 
-use app::{games::Game, teams::{Team, TeamInfo, Teams}};
+use app::{games::Game, teams::{TeamInfo, Teams}};
 
 fn main() {
   tauri::Builder::default()

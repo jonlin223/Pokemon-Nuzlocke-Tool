@@ -10,7 +10,7 @@ const LoadTeam = () => {
   const [teams, setTeams] = useState<Array<TeamInfo>>([]);
   useEffect(() => {
     invoke<Array<TeamInfo>>("get_teams_info")
-      .then(console.log)
+      .then(setTeams)
   }, [])
 
   return (
@@ -18,7 +18,17 @@ const LoadTeam = () => {
       <Link href="/">
         <h1>Hi There</h1>
       </Link>
-
+      {teams.map(team => (
+        <div key={team.id} className={styles.teamBox}>
+          <div className={styles.boxContents}>
+            <div>
+              <div className={styles.nameHeader}>{team.name}</div>
+              <div>{team.game}</div>
+            </div>
+            <button className={styles.deleteButton}>Delete</button>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
