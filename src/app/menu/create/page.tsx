@@ -4,6 +4,7 @@ import Link from "next/link";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
+import { useRouter } from "next/navigation";
 
 export default function CreateTeam() {
 
@@ -17,6 +18,8 @@ export default function CreateTeam() {
   const [name, setName] = useState("");
   const [game, setGame] = useState("");
 
+  const router = useRouter()
+
   useEffect(() => {
     if (games.length != 0) {
       setGame(games[0])
@@ -24,10 +27,12 @@ export default function CreateTeam() {
   }, [games])
 
   const create = () => {
-    /* invoke('create_team', {gameStr: "", name: name})
-      .then() */
     console.log(name)
     console.log(game)
+
+    invoke('create_team', {gameStr: game, name: name})
+      .then(() => router.push('/'))
+      .catch(alert)
   }
 
   return (

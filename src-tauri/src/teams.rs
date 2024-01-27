@@ -1,10 +1,19 @@
 use std::collections::HashMap;
 
+use serde::Serialize;
+
 use crate::{games::Game, pokedex::{get_locations, Pokemon}};
 
 #[derive(Debug)]
 pub struct Teams {
     teams: HashMap<u16, Team>
+}
+
+#[derive(Debug, Serialize)]
+pub struct TeamInfo {
+    id: u16,
+    name: String,
+    game: String
 }
 
 impl Teams {
@@ -31,7 +40,6 @@ impl Teams {
             println!("{:?}", self.teams);
             Ok(())
         }
-
     }
 
     fn generate_id(&self) -> u16 {
@@ -42,11 +50,15 @@ impl Teams {
         return id;
     }
 
+    pub fn get_teams_info(&self) -> Vec<TeamInfo> {
+        self.teams.iter().map(|(id, t)| TeamInfo { id: *id, name: t.name.clone(), game: t.game.into() }).collect()
+    }
+
     // TODO create a function that loads teams from the teams database file
 }
 
 #[derive(Debug)]
-struct Team {
+pub struct Team {
     name: String,
     game: Game,
     encounters: Vec<Encounter>,

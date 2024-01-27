@@ -3,12 +3,12 @@
 
 use std::sync::Mutex;
 
-use app::{games::Game, teams::Teams};
+use app::{games::Game, teams::{Team, TeamInfo, Teams}};
 
 fn main() {
   tauri::Builder::default()
     .manage(Mutex::new(Teams::new()))
-    .invoke_handler(tauri::generate_handler![greet, get_games, create_team])
+    .invoke_handler(tauri::generate_handler![greet, get_games, create_team, get_teams_info])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
@@ -32,4 +32,9 @@ fn create_team(teams: tauri::State<Mutex<Teams>>, game_str: &str, name: &str) ->
         let game = game_str.try_into()?;
         teams.lock().unwrap().add_team(game, name)
     }
+}
+
+#[tauri::command]
+fn get_teams_info(teams: tauri::State<Mutex<Teams>>) -> Vec<TeamInfo> {
+    teams.lock().unwrap().get_teams_info()
 }
