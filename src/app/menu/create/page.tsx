@@ -14,6 +14,21 @@ export default function CreateTeam() {
   }, [])
 
   const [games, setGames] = useState<Array<string>>([]);
+  const [name, setName] = useState("");
+  const [game, setGame] = useState("");
+
+  useEffect(() => {
+    if (games.length != 0) {
+      setGame(games[0])
+    }
+  }, [games])
+
+  const create = () => {
+    /* invoke('create_team', {gameStr: "", name: name})
+      .then() */
+    console.log(name)
+    console.log(game)
+  }
 
   return (
     <div className={styles.centerBox}>
@@ -22,15 +37,18 @@ export default function CreateTeam() {
       </Link>
       <div>
         <label htmlFor="team" className={styles.label}>Name your team!:</label>
-        <input name="team" type="text" id="teamName" style={{marginBottom: "10px"}} className={styles.input} required></input>
+        <input name="team" type="text" id="teamName" style={{marginBottom: "10px"}} className={styles.input} onChange={event => setName(event.target.value)}required></input>
       </div>
       <div>
         <label htmlFor="game" className={styles.label}>Select your game!:</label>
-        <select name="game" className={styles.input}>
+        <select name="game" className={styles.input} onChange={event => setGame(event.target.value)}>
           {games.map(gs => (
             <option value={gs} key={gs}>{gs}</option>
           ))}
         </select>
+      </div>
+      <div>
+        <button style={{marginTop: "15px", width: "200px"}} onClick={create}>Create Team</button>
       </div>
     </div>
   )

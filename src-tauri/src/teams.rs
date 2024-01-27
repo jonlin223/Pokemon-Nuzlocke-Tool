@@ -28,6 +28,7 @@ impl Teams {
             let team = Team { game, encounters };
 
             self.teams.insert(name.to_string(), team);
+            println!("{:?}", self.teams);
             Ok(())
         }
 
