@@ -2,20 +2,30 @@
 
 import { invoke } from "@tauri-apps/api/tauri";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import styles from './styles.module.css';
+import EncounterBox from "./EncounterBox";
 
 export default function Team({ params }: { params: { id: string } }) {
   
+  const [encounters, setEncounters] = useState<Array<Encounter>>([])
+
   useEffect(() => {
     invoke<Team>("get_team", {id: Number(params.id)})
-      .then(console.log)
+      .then(t => setEncounters(t.encounters))
       .catch(alert)
   }, [])
 
   return (
-    <div>
+    <div className={styles.centerBox}>
       <Link href="/">
         <h1>Hi There</h1>
+        <EncounterBox params={{ encounter: {
+          location: "Starter",
+          pokemon: { name: "Eevee", sprite: "../../../sprites/platinum_eevee.png", types: ["normal"] },
+          status: {Caught: "Alive"}
+        }}}
+        />
       </Link>
     </div>
   )

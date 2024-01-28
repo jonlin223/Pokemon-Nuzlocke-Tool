@@ -1,0 +1,10 @@
+.centerBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.encounterBox {
+    display: flex;
+    flex-direction: row;
+}
