@@ -3,3 +3,25 @@ interface TeamInfo {
     name: string,
     game: string,
 }
+
+interface Team {
+    name: string,
+    game: string,
+    encounters: Array<Encounter>,
+}
+
+interface Encounter {
+    location: string,
+    pokemon: Pokemon | null,
+    status: string | PokemonStatus,
+}
+
+interface PokemonStatus {
+    Caught: string
+}
+
+interface Pokemon {
+    name: string,
+    types: Array<string>
+    sprite: string,
+}

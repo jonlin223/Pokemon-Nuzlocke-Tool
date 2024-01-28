@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Serialize)]
 pub enum Game {
     Platinum,
     BlackWhite

@@ -1,6 +1,6 @@
 use std::fs;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::games::Game;
 
@@ -24,7 +24,7 @@ pub fn get_locations(game: &Game) -> Vec<String> {
     pokedex.locations
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone, Serialize)]
 pub struct Pokemon {
     name: String,
     types:  Vec<String>,

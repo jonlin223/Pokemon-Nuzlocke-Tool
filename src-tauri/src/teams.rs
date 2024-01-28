@@ -4,7 +4,7 @@ use serde::Serialize;
 
 use crate::{games::Game, pokedex::{get_locations, Pokemon}};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Teams {
     teams: HashMap<u16, Team>
 }
@@ -21,7 +21,7 @@ impl Teams {
         Teams { teams: HashMap::new() }
     }
 
-    pub fn add_team(&mut self, game: Game, name: &str) -> Result<(), String> {
+    pub fn add_team(&mut self, game: Game, name: &str) -> Result<u16, String> {
         // Check that team doesn't already exist
         if self.teams.iter().any(|t| t.1.name == name) {
             Err(format!("Team with name {name} already exists."))
@@ -35,10 +35,10 @@ impl Teams {
                 .collect();
 
             let team = Team { name: name.to_string(), game, encounters };
-
-            self.teams.insert(self.generate_id(), team);
-            println!("{:?}", self.teams);
-            Ok(())
+            let id = self.generate_id();
+            self.teams.insert(id, team);
+            println!("{:?}", serde_json::to_string_pretty(&self.teams).unwrap());
+            Ok(id)
         }
     }
 
@@ -54,30 +54,34 @@ impl Teams {
         self.teams.iter().map(|(id, t)| TeamInfo { id: *id, name: t.name.clone(), game: t.game.into() }).collect()
     }
 
+    pub fn get_team(&self, id: &u16) -> Result<Team, String> {
+        self.teams.get(id).map(|t| t.clone()).ok_or_else(|| format!("Could not find team with id {}", id))
+    }
+
     // TODO create a function that loads teams from the teams database file
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize)]
 pub struct Team {
     name: String,
     game: Game,
     encounters: Vec<Encounter>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize)]
 struct Encounter {
     location: String,
     pokemon: Option<Pokemon>,
     status: EncounterStatus
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize)]
 enum PokemonStatus {
     Alive,
     Dead
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize)]
 enum EncounterStatus {
     Caught(PokemonStatus),
     Missed,

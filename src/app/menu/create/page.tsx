@@ -31,7 +31,7 @@ export default function CreateTeam() {
     console.log(game)
 
     invoke('create_team', {gameStr: game, name: name})
-      .then(() => router.push('/'))
+      .then((id) => router.push(`/teams/${id}`))
       .catch(alert)
   }
 

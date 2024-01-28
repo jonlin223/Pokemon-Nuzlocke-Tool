@@ -3,12 +3,12 @@
 
 use std::sync::Mutex;
 
-use app::{games::Game, teams::{TeamInfo, Teams}};
+use app::{games::Game, teams::{Team, TeamInfo, Teams}};
 
 fn main() {
   tauri::Builder::default()
     .manage(Mutex::new(Teams::new()))
-    .invoke_handler(tauri::generate_handler![greet, get_games, create_team, get_teams_info])
+    .invoke_handler(tauri::generate_handler![greet, get_games, create_team, get_teams_info, get_team])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
@@ -25,7 +25,7 @@ fn get_games() -> Vec<String> {
 }
 
 #[tauri::command]
-fn create_team(teams: tauri::State<Mutex<Teams>>, game_str: &str, name: &str) -> Result<(), String> {
+fn create_team(teams: tauri::State<Mutex<Teams>>, game_str: &str, name: &str) -> Result<u16, String> {
     if name == "" {
         Err(String::from("Must enter a team name!"))
     } else {
@@ -37,4 +37,9 @@ fn create_team(teams: tauri::State<Mutex<Teams>>, game_str: &str, name: &str) ->
 #[tauri::command]
 fn get_teams_info(teams: tauri::State<Mutex<Teams>>) -> Vec<TeamInfo> {
     teams.lock().unwrap().get_teams_info()
+}
+
+#[tauri::command]
+fn get_team(teams: tauri::State<Mutex<Teams>>, id: u16) -> Result<Team, String>{
+    teams.lock().unwrap().get_team(&id)
 }
