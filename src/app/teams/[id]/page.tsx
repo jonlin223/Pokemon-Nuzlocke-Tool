@@ -20,13 +20,13 @@ export default function Team({ params }: { params: { id: string } }) {
     <div className={styles.centerBox}>
       <Link href="/">
         <h1>Hi There</h1>
-        <EncounterBox params={{ encounter: {
+      </Link>
+      <EncounterBox params={{ encounter: {
           location: "Starter",
-          pokemon: { name: "Eevee", sprite: "../../../sprites/platinum_eevee.png", types: ["normal"] },
+          pokemon: { name: "Eevee", sprite: "platinum_eevee.png", types: ["normal"] },
           status: {Caught: "Alive"}
         }}}
-        />
-      </Link>
+      />
     </div>
   )
 }
