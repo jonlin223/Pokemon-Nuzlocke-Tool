@@ -3,8 +3,6 @@
 import Image from 'next/image';
 import styles from './styles.module.css';
 
-import img from './../../../public/platinum_eevee.png';
-
 export default function EncounterBox({ params }: { params: { encounter: Encounter } }) {
 
   return (
@@ -29,7 +27,7 @@ export default function EncounterBox({ params }: { params: { encounter: Encounte
           <div className={styles.encounterBox2}>
             <div className={styles.pokemonInfo}>
               <Image
-                src={img}
+                src={'/' + `${params.encounter.pokemon.sprite}`}
                 alt={params.encounter.pokemon.name}
                 width={80}
                 height={80}
