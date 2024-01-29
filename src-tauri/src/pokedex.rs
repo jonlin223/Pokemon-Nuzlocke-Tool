@@ -30,3 +30,9 @@ pub struct Pokemon {
     types:  Vec<String>,
     sprite: String,
 }
+
+impl Pokemon {
+    pub fn new(name: &str, types: Vec<&str>, sprite: &str) -> Self {
+        Pokemon { name: name.to_string(), types: types.into_iter().map(|t| t.to_string()).collect(), sprite: sprite.to_string() }
+    }
+}

@@ -21,18 +21,14 @@ export default function Team({ params }: { params: { id: string } }) {
       <Link href="/">
         <h1>Hi There</h1>
       </Link>
-      <EncounterBox params={{ encounter: {
-          location: "Starter",
-          pokemon: { name: "Eevee", sprite: "platinum_eevee.png", types: ["Normal", "Dragon"] },
-          status: {Caught: "Alive"}
-        }}}
-      />
-      <EncounterBox params={{ encounter: {
-          location: "Route 1",
-          pokemon: null,
-          status: "Incomplete"
-        }}}
-      />
+      {encounters.map(e => (
+        <EncounterBox key={e.location} params={{ encounter: {
+          location: e.location,
+          pokemon: e.pokemon,
+          status: e.status
+        }, id: Number(params.id)}}
+        />
+      ))}
     </div>
   )
 }

@@ -37,7 +37,8 @@ impl Teams {
             let team = Team { name: name.to_string(), game, encounters };
             let id = self.generate_id();
             self.teams.insert(id, team);
-            println!("{:?}", serde_json::to_string_pretty(&self.teams).unwrap());
+            println!("{:?}", self.teams);
+            self.add_pokemon(id, "Starter", "Eevee", vec!["Normal"], "platinum_eevee.png");
             Ok(id)
         }
     }
@@ -58,6 +59,18 @@ impl Teams {
         self.teams.get(id).map(|t| t.clone()).ok_or_else(|| format!("Could not find team with id {}", id))
     }
 
+    pub fn update_encounter_status(&mut self, id: u16, location: &str, status: &str) {
+        let team = self.teams.get_mut(&id).unwrap();
+        team.update_encounter_status(location, status);
+        println!("\n{:?}", self.teams);
+    }
+
+    pub fn add_pokemon(&mut self, id: u16, location: &str, name: &str, types: Vec<&str>, sprite: &str) {
+        let team = self.teams.get_mut(&id).unwrap();
+        team.add_pokemon(location, name, types, sprite);
+        println!("\n{:?}", self.teams);
+    }
+
     // TODO create a function that loads teams from the teams database file
 }
 
@@ -66,6 +79,28 @@ pub struct Team {
     name: String,
     game: Game,
     encounters: Vec<Encounter>,
+}
+
+impl Team {
+    fn update_encounter_status(&mut self, location: &str, status: &str) {
+        let encounter = self.encounters.iter_mut()
+            .find(|e| e.location == location)
+            .unwrap();
+        let encounter_status = if status == "Missed" {
+            EncounterStatus::Missed
+        } else {
+            EncounterStatus::Incomplete
+        };
+        encounter.status = encounter_status;
+    }
+
+    fn add_pokemon(&mut self, location: &str, name: &str, types: Vec<&str>, sprite: &str) {
+        let encounter = self.encounters.iter_mut()
+            .find(|e| e.location == location)
+            .unwrap();
+        encounter.pokemon = Some(Pokemon::new(name, types, sprite));
+        encounter.status = EncounterStatus::Caught(PokemonStatus::Alive);
+    }
 }
 
 #[derive(Debug, Clone, Serialize)]

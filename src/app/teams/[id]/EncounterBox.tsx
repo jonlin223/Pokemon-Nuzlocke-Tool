@@ -3,9 +3,12 @@
 import Image from 'next/image';
 import styles from './styles.module.css';
 import { useEffect, useState } from 'react';
+import { invoke } from '@tauri-apps/api/tauri';
 
-export default function EncounterBox({ params }: { params: { encounter: Encounter } }) {
+export default function EncounterBox({ params }: { params: { encounter: Encounter, id: number } }) {
 
+  // TODO: think about chanhing how all this works
+  // I realised now that these state variables will be inconsistent with the greater list that we are given
   const [encounterStatus, setEncounterStatus] = useState("Incomplete");
   const [pokemonStatus, setPokemonStatus] = useState("Alive");
 
@@ -17,6 +20,11 @@ export default function EncounterBox({ params }: { params: { encounter: Encounte
     }
   }, [])
 
+  const handleEncounterStatus = (location: string, status: string) => {
+    setEncounterStatus(status);
+    invoke("update_encounter_status", {id: params.id, location: location, status: status})
+  }
+
   return (
     <div className={styles.base}>
       {params.encounter.pokemon === null && typeof params.encounter.status === "string" &&
@@ -24,9 +32,9 @@ export default function EncounterBox({ params }: { params: { encounter: Encounte
           <div className={styles.locationText}>{params.encounter.location}</div>
           <hr/>
           <div className={styles.encounterBox1}>
-            <select value={encounterStatus} onChange={e => setEncounterStatus(e.target.value)}>
-              <option>Incomplete</option>
-              <option>Missed</option>
+            <select value={encounterStatus} onChange={e => handleEncounterStatus(params.encounter.location, e.target.value)}>
+              <option value="Incomplete">Incomplete</option>
+              <option value="Missed">Missed</option>
             </select>
             <button disabled={encounterStatus === "Missed"}>Add Pokemon</button>
           </div>
