@@ -23,8 +23,14 @@ export default function Team({ params }: { params: { id: string } }) {
       </Link>
       <EncounterBox params={{ encounter: {
           location: "Starter",
-          pokemon: { name: "Eevee", sprite: "platinum_eevee.png", types: ["normal"] },
+          pokemon: { name: "Eevee", sprite: "platinum_eevee.png", types: ["Normal", "Dragon"] },
           status: {Caught: "Alive"}
+        }}}
+      />
+      <EncounterBox params={{ encounter: {
+          location: "Route 1",
+          pokemon: null,
+          status: "Incomplete"
         }}}
       />
     </div>
