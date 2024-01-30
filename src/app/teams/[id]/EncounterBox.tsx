@@ -10,6 +10,7 @@ interface Params {
   handleEncounterStatus: (location: string, status: string) => void,
   handlePokemonStatus: (location: string, status: string) => void,
   handleRemovePokemon: (location: string) => void,
+  handleAdd: (locationId: number) => void,
 }
 
 export default function EncounterBox({ params }: { params: Params }) {
@@ -25,7 +26,7 @@ export default function EncounterBox({ params }: { params: Params }) {
               <option value="Incomplete">Incomplete</option>
               <option value="Missed">Missed</option>
             </select>
-            <button disabled={params.encounter.status === "Missed"}>Add Pokemon</button>
+            <button disabled={params.encounter.status === "Missed"} onClick={() => params.handleAdd(params.encounter.id)}>Add Pokemon</button>
           </div>
         </div>
       }

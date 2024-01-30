@@ -5,10 +5,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from './styles.module.css';
 import EncounterBox from "./EncounterBox";
+import { useRouter } from "next/navigation";
 
 export default function Team({ params }: { params: { id: string } }) {
   
   const [encounters, setEncounters] = useState<Array<Encounter>>([])
+
+  const router = useRouter()
 
   useEffect(() => {
     invoke<Team>("get_team", {id: Number(params.id)})
@@ -51,6 +54,10 @@ export default function Team({ params }: { params: { id: string } }) {
     }))
   }
 
+  const handleAdd = (locationId: number) => {
+    router.push(`/teams/${params.id}/${locationId}`)
+  }
+
   return (
     <div className={styles.centerBox}>
       <Link href="/">
@@ -62,7 +69,7 @@ export default function Team({ params }: { params: { id: string } }) {
           location: e.location,
           pokemon: e.pokemon,
           status: e.status
-        }, handleEncounterStatus, handlePokemonStatus, handleRemovePokemon}}
+        }, handleEncounterStatus, handlePokemonStatus, handleRemovePokemon, handleAdd}}
         />
       ))}
     </div>

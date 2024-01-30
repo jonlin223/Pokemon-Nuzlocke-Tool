@@ -84,6 +84,10 @@ impl Teams {
         println!("\n{:?}", self.teams);
     }
 
+    pub fn get_game_from_id(&self, id: u16) -> Game {
+        self.teams.get(&id).unwrap().game
+    }
+
     // TODO create a function that loads teams from the teams database file
 }
 
