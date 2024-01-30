@@ -18,7 +18,7 @@ export default function Team({ params }: { params: { id: string } }) {
 
   // Handlers that we want to pass down to the EncounterBoxes
   const handleEncounterStatus = (location: string, status: string) => {
-    invoke("update_encounter_status", {id: Number(params.id), location, status})
+    invoke("update_encounter_status", {id: Number(params.id), location, status});
     setEncounters(encounters.map(e => {
       if (e.location === location) {
         console.log({ ...e, status: status})
@@ -30,7 +30,7 @@ export default function Team({ params }: { params: { id: string } }) {
   }
 
   const handlePokemonStatus = (location: string, status: string) => {
-    invoke("update_pokemon_status", {id: Number(params.id), location, status})
+    invoke("update_pokemon_status", {id: Number(params.id), location, status});
     setEncounters(encounters.map(e => {
       if (e.location === location) {
         return { ...e, status:  { Caught: status } }
@@ -41,7 +41,14 @@ export default function Team({ params }: { params: { id: string } }) {
   }
 
   const handleRemovePokemon = (location: string) => {
-    
+    invoke("remove_pokemon", {id: Number(params.id), location});
+    setEncounters(encounters.map(e => {
+      if (e.location === location) {
+        return { ...e, pokemon: null, status: "Incomplete"}
+      } else {
+        return e
+      }
+    }))
   }
 
   return (
@@ -55,7 +62,7 @@ export default function Team({ params }: { params: { id: string } }) {
           location: e.location,
           pokemon: e.pokemon,
           status: e.status
-        }, handleEncounterStatus, handlePokemonStatus}}
+        }, handleEncounterStatus, handlePokemonStatus, handleRemovePokemon}}
         />
       ))}
     </div>

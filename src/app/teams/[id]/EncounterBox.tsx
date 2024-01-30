@@ -7,8 +7,9 @@ import { invoke } from '@tauri-apps/api/tauri';
 
 interface Params {
   encounter: Encounter,
-  handleEncounterStatus: (location: string, ststus: string) => void,
-  handlePokemonStatus: (location: string, ststus: string) => void,
+  handleEncounterStatus: (location: string, status: string) => void,
+  handlePokemonStatus: (location: string, status: string) => void,
+  handleRemovePokemon: (location: string) => void,
 }
 
 export default function EncounterBox({ params }: { params: Params }) {
@@ -48,7 +49,7 @@ export default function EncounterBox({ params }: { params: Params }) {
               </div>
             </div>
             <div className={styles.pokemonActions}>
-              <button disabled={params.encounter.status.Caught === "Dead"}>Remove Pokemon</button>
+              <button disabled={params.encounter.status.Caught === "Dead"} onClick={e => params.handleRemovePokemon(params.encounter.location)}>Remove Pokemon</button>
               <select value={params.encounter.status.Caught} onChange={e => params.handlePokemonStatus(params.encounter.location, e.target.value)}>
                 <option value="Alive">Alive</option>
                 <option value="Dead">Dead</option>

@@ -78,6 +78,12 @@ impl Teams {
         println!("\n{:?}", self.teams);
     }
 
+    pub fn remove_pokemon(&mut self, id: u16, location: &str) {
+        let team = self.teams.get_mut(&id).unwrap();
+        team.remove_pokemon(location);
+        println!("\n{:?}", self.teams);
+    }
+
     // TODO create a function that loads teams from the teams database file
 }
 
@@ -119,6 +125,14 @@ impl Team {
             PokemonStatus::Dead
         };
         encounter.status = EncounterStatus::Caught(pokemon_status);
+    }
+
+    fn remove_pokemon(&mut self, location: &str) {
+        let encounter = self.encounters.iter_mut()
+            .find(|e| e.location == location)
+            .unwrap();
+        encounter.pokemon = None;
+        encounter.status = EncounterStatus::Incomplete;
     }
 }
 
