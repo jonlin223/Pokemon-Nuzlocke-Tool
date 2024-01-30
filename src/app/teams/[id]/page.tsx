@@ -14,7 +14,20 @@ export default function Team({ params }: { params: { id: string } }) {
     invoke<Team>("get_team", {id: Number(params.id)})
       .then(t => setEncounters(t.encounters))
       .catch(alert)
-  }, [])
+  }, [encounters])
+
+  // Handlers that we want to pass down to the EncounterBoxes
+  const handleEncounterStatus = (location: string, status: string) => {
+    invoke("update_encounter_status", {id: Number(params.id), location, status})
+    setEncounters(encounters.map(e => {
+      if (e.location === location) {
+        console.log({ ...e, status: status})
+        return { ...e, status: status}
+      } else {
+        return e
+      }
+    }))
+  }
 
   return (
     <div className={styles.centerBox}>
@@ -23,10 +36,11 @@ export default function Team({ params }: { params: { id: string } }) {
       </Link>
       {encounters.map(e => (
         <EncounterBox key={e.location} params={{ encounter: {
+          id: e.id,
           location: e.location,
           pokemon: e.pokemon,
           status: e.status
-        }, id: Number(params.id)}}
+        }, handleEncounterStatus}}
         />
       ))}
     </div>

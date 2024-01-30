@@ -31,7 +31,8 @@ impl Teams {
         else {
             let encounters = get_locations(&game)
                 .into_iter()
-                .map(|location| Encounter {location, pokemon: None, status: EncounterStatus::Incomplete })
+                .enumerate()
+                .map(|(id, location)| Encounter {id: id.try_into().unwrap(), location, pokemon: None, status: EncounterStatus::Incomplete })
                 .collect();
 
             let team = Team { name: name.to_string(), game, encounters };
@@ -105,6 +106,7 @@ impl Team {
 
 #[derive(Debug, Clone, Serialize)]
 struct Encounter {
+    id: u16,
     location: String,
     pokemon: Option<Pokemon>,
     status: EncounterStatus

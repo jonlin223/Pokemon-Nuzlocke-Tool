@@ -11,6 +11,7 @@ interface Team {
 }
 
 interface Encounter {
+    id: number,
     location: string,
     pokemon: Pokemon | null,
     status: string | PokemonStatus,
