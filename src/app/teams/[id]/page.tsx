@@ -29,6 +29,21 @@ export default function Team({ params }: { params: { id: string } }) {
     }))
   }
 
+  const handlePokemonStatus = (location: string, status: string) => {
+    invoke("update_pokemon_status", {id: Number(params.id), location, status})
+    setEncounters(encounters.map(e => {
+      if (e.location === location) {
+        return { ...e, status:  { Caught: status } }
+      } else {
+        return e
+      }
+    }))
+  }
+
+  const handleRemovePokemon = (location: string) => {
+    
+  }
+
   return (
     <div className={styles.centerBox}>
       <Link href="/">
@@ -40,7 +55,7 @@ export default function Team({ params }: { params: { id: string } }) {
           location: e.location,
           pokemon: e.pokemon,
           status: e.status
-        }, handleEncounterStatus}}
+        }, handleEncounterStatus, handlePokemonStatus}}
         />
       ))}
     </div>

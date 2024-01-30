@@ -8,7 +8,7 @@ use app::{games::Game, teams::{Team, TeamInfo, Teams}};
 fn main() {
   tauri::Builder::default()
     .manage(Mutex::new(Teams::new()))
-    .invoke_handler(tauri::generate_handler![greet, get_games, create_team, get_teams_info, get_team, update_encounter_status, add_pokemon])
+    .invoke_handler(tauri::generate_handler![greet, get_games, create_team, get_teams_info, get_team, update_encounter_status, add_pokemon, update_pokemon_status])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
@@ -52,4 +52,9 @@ fn update_encounter_status(teams: tauri::State<Mutex<Teams>>, id: u16, location:
 #[tauri::command]
 fn add_pokemon(teams: tauri::State<Mutex<Teams>>, id: u16, location: &str, name: &str, types: Vec<&str>, sprite: &str) {
     teams.lock().unwrap().add_pokemon(id, location, name, types, sprite);
+}
+
+#[tauri::command]
+fn update_pokemon_status(teams: tauri::State<Mutex<Teams>>, id: u16, location: &str, status: &str) {
+    teams.lock().unwrap().update_pokemon_status(id, location, status);
 }

@@ -72,6 +72,12 @@ impl Teams {
         println!("\n{:?}", self.teams);
     }
 
+    pub fn update_pokemon_status(&mut self, id: u16, location: &str, status: &str) {
+        let team = self.teams.get_mut(&id).unwrap();
+        team.update_pokemon_status(location, status);
+        println!("\n{:?}", self.teams);
+    }
+
     // TODO create a function that loads teams from the teams database file
 }
 
@@ -101,6 +107,18 @@ impl Team {
             .unwrap();
         encounter.pokemon = Some(Pokemon::new(name, types, sprite));
         encounter.status = EncounterStatus::Caught(PokemonStatus::Alive);
+    }
+
+    fn update_pokemon_status(&mut self, location: &str, status: &str) {
+        let encounter = self.encounters.iter_mut()
+            .find(|e| e.location == location)
+            .unwrap();
+        let pokemon_status = if status == "Alive" {
+            PokemonStatus::Alive
+        } else {
+            PokemonStatus::Dead
+        };
+        encounter.status = EncounterStatus::Caught(pokemon_status);
     }
 }
 

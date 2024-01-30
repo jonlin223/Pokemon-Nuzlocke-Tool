@@ -5,7 +5,13 @@ import styles from './styles.module.css';
 import { useEffect, useState } from 'react';
 import { invoke } from '@tauri-apps/api/tauri';
 
-export default function EncounterBox({ params }: { params: { encounter: Encounter, handleEncounterStatus: (location: string, status: string) => void} }) {
+interface Params {
+  encounter: Encounter,
+  handleEncounterStatus: (location: string, ststus: string) => void,
+  handlePokemonStatus: (location: string, ststus: string) => void,
+}
+
+export default function EncounterBox({ params }: { params: Params }) {
 
   return (
     <div className={styles.base}>
@@ -43,9 +49,9 @@ export default function EncounterBox({ params }: { params: { encounter: Encounte
             </div>
             <div className={styles.pokemonActions}>
               <button disabled={params.encounter.status.Caught === "Dead"}>Remove Pokemon</button>
-              <select>
-                <option>Alive</option>
-                <option>Dead</option>
+              <select value={params.encounter.status.Caught} onChange={e => params.handlePokemonStatus(params.encounter.location, e.target.value)}>
+                <option value="Alive">Alive</option>
+                <option value="Dead">Dead</option>
               </select>
             </div>
           </div>
