@@ -39,7 +39,6 @@ impl Teams {
             let id = self.generate_id();
             self.teams.insert(id, team);
             println!("{:?}", self.teams);
-            self.add_pokemon(id, "Starter", "Eevee", vec!["Normal"], "platinum_eevee.png");
             Ok(id)
         }
     }
@@ -66,9 +65,9 @@ impl Teams {
         println!("\n{:?}", self.teams);
     }
 
-    pub fn add_pokemon(&mut self, id: u16, location: &str, name: &str, types: Vec<&str>, sprite: &str) {
+    pub fn add_pokemon(&mut self, id: u16, location_id: u16, name: &str, types: Vec<&str>, sprite: &str) {
         let team = self.teams.get_mut(&id).unwrap();
-        team.add_pokemon(location, name, types, sprite);
+        team.add_pokemon(location_id, name, types, sprite);
         println!("\n{:?}", self.teams);
     }
 
@@ -111,9 +110,9 @@ impl Team {
         encounter.status = encounter_status;
     }
 
-    fn add_pokemon(&mut self, location: &str, name: &str, types: Vec<&str>, sprite: &str) {
+    fn add_pokemon(&mut self, location_id: u16, name: &str, types: Vec<&str>, sprite: &str) {
         let encounter = self.encounters.iter_mut()
-            .find(|e| e.location == location)
+            .find(|e| e.id == location_id)
             .unwrap();
         encounter.pokemon = Some(Pokemon::new(name, types, sprite));
         encounter.status = EncounterStatus::Caught(PokemonStatus::Alive);

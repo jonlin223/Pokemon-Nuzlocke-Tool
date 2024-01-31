@@ -15,6 +15,7 @@
     width: 300px;
     border-radius: 7px;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .typeText {
@@ -28,4 +29,17 @@
     width: 300px;
     height: 22px;
     margin-bottom: 12px;
+}
+
+.emptyBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgray;
+    border: 1px solid black;
+    width: 300px;
+    height: 30px;
+    padding: 5px 5px 5px 5px;
+    margin-bottom: 3px;
+    border-radius: 7px;
 }

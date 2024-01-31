@@ -50,8 +50,8 @@ fn update_encounter_status(teams: tauri::State<Mutex<Teams>>, id: u16, location:
 }
 
 #[tauri::command]
-fn add_pokemon(teams: tauri::State<Mutex<Teams>>, id: u16, location: &str, name: &str, types: Vec<&str>, sprite: &str) {
-    teams.lock().unwrap().add_pokemon(id, location, name, types, sprite);
+fn add_pokemon(teams: tauri::State<Mutex<Teams>>, id: u16, location_id: u16, name: &str, types: Vec<&str>, sprite: &str) {
+    teams.lock().unwrap().add_pokemon(id, location_id, name, types, sprite);
 }
 
 #[tauri::command]

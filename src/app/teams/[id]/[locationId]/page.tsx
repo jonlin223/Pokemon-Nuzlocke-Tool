@@ -6,12 +6,18 @@ import { useEffect, useState } from "react"
 import styles from "./styles.module.css"
 import Image from "next/image"
 import ptypes from "../ptypes.module.css"
+import PokemonBox from "./PokemonBox"
+import { useRouter } from "next/navigation";
 
 export default function Add({ params }: { params: { id: string, locationId: string } }) {
 
   const [pokemonList, setPokemonList] = useState<Array<Pokemon>>([])
   const [filteredList, setFilteredList] = useState<Array<Pokemon>>([])
   const [filterInput, setFilterInput] = useState("")
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null)
+  const [nickname, setNickname] = useState("")
+
+  const router = useRouter();
 
   useEffect(() => {
     console.log(params.locationId)
@@ -27,32 +33,49 @@ export default function Add({ params }: { params: { id: string, locationId: stri
       p.name.toLowerCase().startsWith(filterInput.toLowerCase())));
   }, [filterInput, pokemonList])
 
+  const handleSelect = (pokemon: Pokemon) => {
+    setSelectedPokemon(pokemon)
+  }
+
+  const handleAdd = () => {
+    if (nickname === "") {
+      alert("Must Enter A Nickname")
+    } else if(selectedPokemon === null) {
+      alert("Must Select A Pokemon")
+    } else {
+      invoke("add_pokemon", { id: Number(params.id), locationId: Number(params.locationId), name: nickname, types: selectedPokemon.types, sprite: selectedPokemon.sprite })
+      router.push(`/teams/${params.id}`)
+    }
+  }
+
   return (
     <div className={styles.centerBox}>
       <Link href="/">
         <h1>Hi There</h1>
       </Link>
+      <div style={{ display: "flex", justifyContent: "flex-start", width: "300px", marginBottom: "3px" }}>
+        <Link href={`/teams/${params.id}`}>
+          Back
+        </Link>
+      </div>
+      <div>
+        {selectedPokemon === null &&
+          <div className={styles.emptyBox}>
+            No Pokemon Selected
+          </div>
+        }
+        {selectedPokemon !== null &&
+          <PokemonBox pokemon={selectedPokemon} handleSelect={handleSelect}/>
+        }
+        <div>
+          <input required onChange={e => setNickname(e.target.value)}/>
+          <button onClick={() => handleAdd()}>Add Pokemon</button>
+        </div>
+      </div>
+      <hr style={{ width: "310px", backgroundColor: "black", height: "1px", color: "black", border: "none" }}/>
       <input name="filter" className={styles.filterInput} value={filterInput} onChange={e => setFilterInput(e.target.value)}/>
       {filteredList.map(p => (
-        <div key={p.name} className={styles.pokemonBox}>
-          <div style={{ display: "inherit", alignItems: "center" }}>
-            <Image
-              src={'/' + `${p.sprite}`}
-              alt={p.name}
-              width={30}
-              height={30}
-              style={{ marginRight: "10px" }}
-            />
-            <div>{p.name}</div>
-          </div>
-          <div style={{ display: "inherit", alignItems: "center" }}>
-            {p.types.map(t => (
-              <div key={t} className={`${styles.typeText} ${ptypes[t]}`}>
-                {t}
-              </div>
-            ))}
-          </div>
-        </div>
+        <PokemonBox pokemon={p} handleSelect={handleSelect} key={p.name} />
       ))}
     </div>
   )
