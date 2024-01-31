@@ -2,8 +2,7 @@
 
 import Image from 'next/image';
 import styles from './styles.module.css';
-import { useEffect, useState } from 'react';
-import { invoke } from '@tauri-apps/api/tauri';
+import ptypes from './ptypes.module.css';
 
 interface Params {
   encounter: Encounter,
@@ -45,7 +44,7 @@ export default function EncounterBox({ params }: { params: Params }) {
               <div className={styles.nameText}>{params.encounter.pokemon.name}</div>
               <div className={styles.typeList}>
                 {params.encounter.pokemon.types.map(t => (
-                  <div key={t} className={`${styles.typeText} ${styles[t]}`}>{t}</div>
+                  <div key={t} className={`${styles.typeText} ${ptypes[t]}`}>{t}</div>
                 ))}
               </div>
             </div>
