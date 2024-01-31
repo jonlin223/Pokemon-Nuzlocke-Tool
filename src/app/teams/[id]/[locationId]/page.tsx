@@ -10,20 +10,30 @@ import ptypes from "../ptypes.module.css"
 export default function Add({ params }: { params: { id: string, locationId: string } }) {
 
   const [pokemonList, setPokemonList] = useState<Array<Pokemon>>([])
+  const [filteredList, setFilteredList] = useState<Array<Pokemon>>([])
+  const [filterInput, setFilterInput] = useState("")
 
   useEffect(() => {
     console.log(params.locationId)
     invoke<Array<Pokemon>>("get_pokemon", {id: Number(params.id)})
-      .then(setPokemonList)
+      .then(pokemons => {
+        setPokemonList(pokemons);
+        setFilteredList(pokemons);
+      })
   }, [])
+
+  useEffect(() => {
+    setFilteredList(pokemonList.filter(p => 
+      p.name.toLowerCase().startsWith(filterInput.toLowerCase())));
+  }, [filterInput, pokemonList])
 
   return (
     <div className={styles.centerBox}>
       <Link href="/">
         <h1>Hi There</h1>
       </Link>
-      <input name="filter" className={styles.filterInput}/>
-      {pokemonList.map(p => (
+      <input name="filter" className={styles.filterInput} value={filterInput} onChange={e => setFilterInput(e.target.value)}/>
+      {filteredList.map(p => (
         <div key={p.name} className={styles.pokemonBox}>
           <div style={{ display: "inherit", alignItems: "center" }}>
             <Image
