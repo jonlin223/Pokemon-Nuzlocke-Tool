@@ -1,10 +1,10 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, fs};
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 use crate::{games::Game, pokedex::{get_locations, Pokemon}};
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Teams {
     teams: HashMap<u16, Team>
 }
@@ -21,7 +21,7 @@ impl Teams {
         Teams { teams: HashMap::new() }
     }
 
-    pub fn add_team(&mut self, game: Game, name: &str) -> Result<u16, String> {
+    pub fn add_team(&mut self, handle: tauri::AppHandle, game: Game, name: &str) -> Result<u16, String> {
         // Check that team doesn't already exist
         if self.teams.iter().any(|t| t.1.name == name) {
             Err(format!("Team with name {name} already exists."))
@@ -38,6 +38,7 @@ impl Teams {
             let team = Team { name: name.to_string(), game, encounters };
             let id = self.generate_id();
             self.teams.insert(id, team);
+            self.save_teams(handle);
             println!("{:?}", self.teams);
             Ok(id)
         }
@@ -88,9 +89,35 @@ impl Teams {
     }
 
     // TODO create a function that loads teams from the teams database file
+    pub fn load_teams() -> Self {
+        if std::path::Path::try_exists(std::path::Path::new("./../data/teams.json")).expect("Something really bad happened") {
+            let path = String::from("./../data/teams.json");
+            let teams_string = fs::read_to_string(path).unwrap();
+            let tmp: String = serde_json::from_str(&teams_string).unwrap();
+            let teams: Teams = serde_json::from_str(&tmp).unwrap();
+            teams
+        } else {
+            let teams = Teams::new();
+            let file = std::fs::File::create("./../data/teams.json").expect("Something bad happened");
+            let json = serde_json::to_string(&teams).unwrap();
+            serde_json::to_writer_pretty(file, &json).unwrap();
+            teams
+        }
+    }
+
+    // TODO maybe might be better to thread this?
+    fn save_teams(&self, handle: tauri::AppHandle) {
+/*         let resource_path = handle.path_resolver()
+            .resolve_resource("data/teams.json")
+            .expect("failed to resolve resource"); */
+
+        let file = std::fs::File::create("./../data/teams.json").unwrap();
+        let json = serde_json::to_string(&self).unwrap();
+        serde_json::to_writer_pretty(file, &json).unwrap();
+    }
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Team {
     name: String,
     game: Game,
@@ -139,7 +166,7 @@ impl Team {
     }
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 struct Encounter {
     id: u16,
     location: String,
@@ -147,13 +174,13 @@ struct Encounter {
     status: EncounterStatus
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 enum PokemonStatus {
     Alive,
     Dead
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 enum EncounterStatus {
     Caught(PokemonStatus),
     Missed,
