@@ -7,6 +7,7 @@ use app::{games::Game, pokedex::{self, Pokemon}, teams::{Team, TeamInfo, Teams}}
 
 fn main() {
     let teams = Teams::load_teams();
+
     tauri::Builder::default()
         .manage(Mutex::new(teams))
         .invoke_handler(tauri::generate_handler![greet, get_games, create_team, get_teams_info, get_team, update_encounter_status, add_pokemon, update_pokemon_status, remove_pokemon, get_pokemon])
@@ -26,12 +27,12 @@ fn get_games() -> Vec<String> {
 }
 
 #[tauri::command]
-fn create_team(handle: tauri::AppHandle, teams: tauri::State<Mutex<Teams>>, game_str: &str, name: &str) -> Result<u16, String> {
+fn create_team(teams: tauri::State<Mutex<Teams>>, game_str: &str, name: &str) -> Result<u16, String> {
     if name == "" {
         Err(String::from("Must enter a team name!"))
     } else {
         let game = game_str.try_into()?;
-        teams.lock().unwrap().add_team(handle, game, name)
+        teams.lock().unwrap().add_team(game, name)
     }
 }
 

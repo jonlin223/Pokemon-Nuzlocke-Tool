@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{games::Game, pokedex::{get_locations, Pokemon}};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Teams {
     teams: HashMap<u16, Team>
 }
@@ -21,7 +21,7 @@ impl Teams {
         Teams { teams: HashMap::new() }
     }
 
-    pub fn add_team(&mut self, handle: tauri::AppHandle, game: Game, name: &str) -> Result<u16, String> {
+    pub fn add_team(&mut self, game: Game, name: &str) -> Result<u16, String> {
         // Check that team doesn't already exist
         if self.teams.iter().any(|t| t.1.name == name) {
             Err(format!("Team with name {name} already exists."))
@@ -38,8 +38,7 @@ impl Teams {
             let team = Team { name: name.to_string(), game, encounters };
             let id = self.generate_id();
             self.teams.insert(id, team);
-            self.save_teams(handle);
-            println!("{:?}", self.teams);
+            self.save_teams();
             Ok(id)
         }
     }
@@ -63,32 +62,31 @@ impl Teams {
     pub fn update_encounter_status(&mut self, id: u16, location: &str, status: &str) {
         let team = self.teams.get_mut(&id).unwrap();
         team.update_encounter_status(location, status);
-        println!("\n{:?}", self.teams);
+        self.save_teams();
     }
 
     pub fn add_pokemon(&mut self, id: u16, location_id: u16, name: &str, types: Vec<&str>, sprite: &str) {
         let team = self.teams.get_mut(&id).unwrap();
         team.add_pokemon(location_id, name, types, sprite);
-        println!("\n{:?}", self.teams);
+        self.save_teams();
     }
 
     pub fn update_pokemon_status(&mut self, id: u16, location: &str, status: &str) {
         let team = self.teams.get_mut(&id).unwrap();
         team.update_pokemon_status(location, status);
-        println!("\n{:?}", self.teams);
+        self.save_teams();
     }
 
     pub fn remove_pokemon(&mut self, id: u16, location: &str) {
         let team = self.teams.get_mut(&id).unwrap();
         team.remove_pokemon(location);
-        println!("\n{:?}", self.teams);
+        self.save_teams();
     }
 
     pub fn get_game_from_id(&self, id: u16) -> Game {
         self.teams.get(&id).unwrap().game
     }
 
-    // TODO create a function that loads teams from the teams database file
     pub fn load_teams() -> Self {
         if std::path::Path::try_exists(std::path::Path::new("./../data/teams.json")).expect("Something really bad happened") {
             let path = String::from("./../data/teams.json");
@@ -105,15 +103,13 @@ impl Teams {
         }
     }
 
-    // TODO maybe might be better to thread this?
-    fn save_teams(&self, handle: tauri::AppHandle) {
-/*         let resource_path = handle.path_resolver()
-            .resolve_resource("data/teams.json")
-            .expect("failed to resolve resource"); */
-
-        let file = std::fs::File::create("./../data/teams.json").unwrap();
-        let json = serde_json::to_string(&self).unwrap();
-        serde_json::to_writer_pretty(file, &json).unwrap();
+    fn save_teams(&self) {
+        let thread_item = self.clone();
+        std::thread::spawn(move || {
+            let file = std::fs::File::create("./../data/teams.json").unwrap();
+            let json = serde_json::to_string(&thread_item).unwrap();
+            serde_json::to_writer_pretty(file, &json).unwrap();
+        });
     }
 }
 
