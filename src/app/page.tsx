@@ -1,61 +1,42 @@
+'use client'
+
+import { useEffect, useState } from 'react';
 import styles from './styles.module.css'
 import Link from 'next/link'
+import { invoke } from '@tauri-apps/api/tauri';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
 
-  // Ok here's what we need to do
-  // Pages
-    // Main page
-      // Create new team
-      // Load existing team
-    // Load Existing Team
-      // List of Existing Teams (Name, num caught, region, last edited?)
-      // Can delete teams
-    // Create New Team
-      // Select region (or maybe game)
-      // Give team a name
-    // Team page
-      // List of encounter areas in the region (try to list in order of when encounter is possible)
-      // For each encounter, have button that allows you to add an encounter
-      // or if encounter already met, show pokemon, nickname, avatar?
-        // Also need to have a button to mark the mon as dead
-    // Encounter page
-      // Search through list of pokemon (maybe filter it by the region we are in)
-      // Pokemon nickname
+  const [teams, setTeams] = useState<Array<TeamInfo>>([]);
 
-  // Backend
-    // Pokedex
-      // Just a list of pokemon and references to their images
-      // maybe we want to include region for filtering purposes
-    // Team
-      // Again a list of pokemon with references to images
-      // However, we also want to add nickname + alive status
-      // Actually maybe a list of locations - attach a pokemon to each location
-    // Functions
-      // Add to team
-      // mark mon as dead
-      // create a team
-      // delete a team
-    // database
-      // we have to implement all this in a database as well
+  const router = useRouter()
+
+  useEffect(() => {
+    invoke<Array<TeamInfo>>("get_teams_info")
+      .then(setTeams)
+  }, [])
+
+  const handleLoad = (id: number) => {
+    router.push(`/teams/${id}`)
+  }
 
   return (
-    <div className={`${styles.centerBox} ${styles.vertical}`}>
-      <h1>
-        Hi There
-      </h1>
-      <div>
-        <button className={styles.button}>
-          <Link href="/menu/create">
-            Create Team
-          </Link>
-        </button>
-        <button className={styles.button}>
-          <Link href="/menu/load">
-            Load Team
-          </Link>
-        </button>
-      </div>
+    <div className={styles.centerBox}>
+      <Link href="/menu/create">
+        New Team
+      </Link>
+      {teams.map(team => (
+        <div key={team.id} className={styles.teamBox} onClick={() => handleLoad(team.id)}>
+          <div className={styles.boxContents}>
+            <div>
+              <div className={styles.nameHeader}>{team.name}</div>
+              <div>{team.game}</div>
+            </div>
+            {/* <button className={styles.deleteButton}>Delete</button> */}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

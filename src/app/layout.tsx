@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Silkscreen } from 'next/font/google'
 import './global.css'
+import styles from './styles.module.css'
+import Link from 'next/link'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Silkscreen({ weight: '400', subsets: ['latin-ext']})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,8 +18,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
+      <body className={inter.className} style={{ "margin": "0px 0px 0px 0px"}}>
+        <div className={styles.header}>
+          <Link href={'/'} style={{ marginLeft: "17px" }}>
+            Home
+          </Link>
+        </div>
+        <div style={{ marginTop: "50px" }}>
+          {children}
+        </div>
       </body>
     </html>
   )
