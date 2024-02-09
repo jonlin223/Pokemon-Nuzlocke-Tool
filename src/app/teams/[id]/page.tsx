@@ -1,7 +1,6 @@
 'use client'
 
 import { invoke } from "@tauri-apps/api/tauri";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from './styles.module.css';
 import EncounterBox from "./EncounterBox";
@@ -10,12 +9,16 @@ import { useRouter } from "next/navigation";
 export default function Team({ params }: { params: { id: string } }) {
   
   const [encounters, setEncounters] = useState<Array<Encounter>>([])
+  const [name, setName] = useState("")
 
   const router = useRouter()
 
   useEffect(() => {
     invoke<Team>("get_team", {id: Number(params.id)})
-      .then(t => setEncounters(t.encounters))
+      .then(t => {
+        setEncounters(t.encounters);
+        setName(t.name);
+      })
       .catch(alert)
   }, [encounters])
 
@@ -60,9 +63,9 @@ export default function Team({ params }: { params: { id: string } }) {
 
   return (
     <div className={styles.centerBox}>
-      <Link href="/">
-        <h1>Hi There</h1>
-      </Link>
+      <div className={styles.teamName}>
+        <h1>{name}</h1>
+      </div>
       {encounters.map(e => (
         <EncounterBox key={e.location} params={{ encounter: {
           id: e.id,

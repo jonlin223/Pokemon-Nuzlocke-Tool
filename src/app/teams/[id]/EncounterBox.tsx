@@ -21,11 +21,11 @@ export default function EncounterBox({ params }: { params: Params }) {
           <div className={styles.locationText}>{params.encounter.location}</div>
           <hr/>
           <div className={styles.encounterBox1}>
-            <select value={params.encounter.status} onChange={e => params.handleEncounterStatus(params.encounter.location, e.target.value)}>
+            <button className={styles.addButton} disabled={params.encounter.status === "Missed"} onClick={() => params.handleAdd(params.encounter.id)}>Add Pokemon</button>
+            <select className={styles.statusSelect} value={params.encounter.status} onChange={e => params.handleEncounterStatus(params.encounter.location, e.target.value)}>
               <option value="Incomplete">Incomplete</option>
               <option value="Missed">Missed</option>
             </select>
-            <button disabled={params.encounter.status === "Missed"} onClick={() => params.handleAdd(params.encounter.id)}>Add Pokemon</button>
           </div>
         </div>
       }
@@ -49,7 +49,7 @@ export default function EncounterBox({ params }: { params: Params }) {
               </div>
             </div>
             <div className={styles.pokemonActions}>
-              <button disabled={params.encounter.status.Caught === "Dead"} onClick={e => params.handleRemovePokemon(params.encounter.location)}>Remove Pokemon</button>
+              <button className={styles.removeButton} disabled={params.encounter.status.Caught === "Dead"} onClick={e => params.handleRemovePokemon(params.encounter.location)}>Remove Pokemon</button>
               <select value={params.encounter.status.Caught} onChange={e => params.handlePokemonStatus(params.encounter.location, e.target.value)}>
                 <option value="Alive">Alive</option>
                 <option value="Dead">Dead</option>

@@ -23,9 +23,11 @@ export default function Home() {
 
   return (
     <div className={styles.centerBox}>
-      <Link href="/menu/create">
-        New Team
-      </Link>
+      <div className={styles.newTeamDiv}>
+        <Link href="/menu/create">
+          New Team
+        </Link>
+      </div>
       {teams.map(team => (
         <div key={team.id} className={styles.teamBox} onClick={() => handleLoad(team.id)}>
           <div className={styles.boxContents}>

@@ -20,14 +20,15 @@
 }
 
 .teamBox {
-    border: 1px black solid;
+    border: 3px #515151 solid;
     margin-top: 4px;
     padding-left: 7px;
     padding-top: 2px;
     padding-bottom: 2px;
-    width: 350px;
+    width: 400px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
+    background-color: #cdb584;
 }
 
 .nameHeader {
@@ -52,4 +53,12 @@
     margin-right: 5px;
     border-radius: 10px;
     width: 100px;
+}
+
+.newTeamDiv {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 400px;
 }

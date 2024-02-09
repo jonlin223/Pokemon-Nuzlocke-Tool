@@ -1,6 +1,5 @@
 'use client'
 
-import Link from "next/link";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
@@ -37,9 +36,7 @@ export default function CreateTeam() {
 
   return (
     <div className={styles.centerBox}>
-      <Link href="/">
-        <h1>Hi There</h1>
-      </Link>
+      <h1>Add Your Team Details!</h1>
       <div>
         <label htmlFor="team" className={styles.label}>Name your team!:</label>
         <input name="team" type="text" id="teamName" style={{marginBottom: "10px"}} className={styles.input} onChange={event => setName(event.target.value)}required></input>
