@@ -24,7 +24,7 @@ export default function PokemonBox(params: Params) {
       </div>
       <div style={{ display: "inherit", alignItems: "center" }}>
         {params.pokemon.types.map(t => (
-          <div key={t} className={`${styles.typeText} ${ptypes[t]}`}>
+          <div key={t} className={`${styles.typeText} ${ptypes[t]} ${ptypes.type}`}>
             {t}
           </div>
         ))}

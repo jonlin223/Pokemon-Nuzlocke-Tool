@@ -4,8 +4,6 @@ import { invoke } from "@tauri-apps/api/tauri"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import styles from "./styles.module.css"
-import Image from "next/image"
-import ptypes from "../ptypes.module.css"
 import PokemonBox from "./PokemonBox"
 import { useRouter } from "next/navigation";
 
@@ -50,15 +48,12 @@ export default function Add({ params }: { params: { id: string, locationId: stri
 
   return (
     <div className={styles.centerBox}>
-      <Link href="/">
-        <h1>Hi There</h1>
-      </Link>
-      <div style={{ display: "flex", justifyContent: "flex-start", width: "300px", marginBottom: "3px" }}>
+      <div style={{ display: "flex", justifyContent: "flex-start", width: "300px", marginBottom: "3px", marginTop: "15px" }}>
         <Link href={`/teams/${params.id}`}>
           Back
         </Link>
       </div>
-      <div>
+      <div className={styles.pokemonInfo}>
         {selectedPokemon === null &&
           <div className={styles.emptyBox}>
             No Pokemon Selected
@@ -69,7 +64,7 @@ export default function Add({ params }: { params: { id: string, locationId: stri
         }
         <div>
           <input required onChange={e => setNickname(e.target.value)}/>
-          <button onClick={() => handleAdd()}>Add Pokemon</button>
+          <button className={styles.addButton} onClick={() => handleAdd()}>Add Pokemon</button>
         </div>
       </div>
       <hr style={{ width: "310px", backgroundColor: "black", height: "1px", color: "black", border: "none" }}/>

@@ -8,11 +8,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: lightgray;
+    background-color: #b4a783;
     margin-bottom: 3px;
     padding: 5px 5px 5px 5px;
-    border: 1px solid black;
-    width: 300px;
+    border: 2px solid #515153;
+    width: 330px;
     border-radius: 7px;
     justify-content: space-between;
     cursor: pointer;
@@ -35,11 +35,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: lightgray;
-    border: 1px solid black;
-    width: 300px;
+    background-color: #b4a783;
+    border: 2px solid #515153;
+    width: 330px;
     height: 30px;
     padding: 5px 5px 5px 5px;
     margin-bottom: 3px;
     border-radius: 7px;
+}
+
+.pokemonInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.addButton {
+    background-color: #84df63;
+    border-top: 2px solid #74634b;
+    border-left: 2px solid #74634b;
+    border-right: 2px solid #74634b;
+    border-bottom: 1px solid #618f43;
+    border-radius: 8px;
 }

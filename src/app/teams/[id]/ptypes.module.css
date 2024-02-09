@@ -1,71 +1,82 @@
+.type {
+    padding: 2px 2px 2px 2px;
+    border-radius: 10px;
+    border: 2px #474747 solid;
+    color: white;
+    width: 63px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .Grass {
-    color: #5cb737;
+    background-color: #77cc55;
 }
 
 .Ground {
-    color: #bf9926;
+    background-color: #dcba62;
 }
 
 .Fire {
-    color: #d52100;
+    background-color: #ff4422;
 }
 
 .Fighting {
-    color: #a84d3d;
+    background-color: #ab4f3d;
 }
 
 .Water {
-    color: #0080ff;
+    background-color: #3295f8;
 }
 
 .Steel {
-    color: #8e8ea4;
+    background-color: #a9a9ba;
 }
 
 .Normal {
-    color: #797964;
+    background-color: #9c9588;
 }
 
 .Flying {
-    color: #556dff;
+    background-color: #6699ff;
 }
 
 .Bug {
-    color: #83901a;
+    background-color: #aabb22;
 }
 
 .Electric {
-    color: #c90;
+    background-color: #f8c631;
 }
 
 .Psychic {
-    color: #ff227a;
+    background-color: #fc5497;
 }
 
 .Poison {
-    color: #88447a;
+    background-color: #aa5299;
 }
 
 .Rock {
-    color: #a59249;
+    background-color: #bbaa66;
 }
 
 .Ghost {
-    color: #5454b3;
+    background-color: #6666bb;
 }
 
 .Dark {
-    color: #573e31;
+    background-color: #775544;
 }
 
 .Dragon {
-    color: #4e38e9;
+    background-color: #6655cc;
 }
 
 .Ice {
-    color: #0af;
+    background-color: #77ddff;
 }
 
 .Fariy {
-    color: #e76de7;
+    background-color: #ffaaff;
 }

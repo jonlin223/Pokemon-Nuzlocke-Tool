@@ -44,13 +44,13 @@ export default function EncounterBox({ params }: { params: Params }) {
               <div className={styles.nameText}>{params.encounter.pokemon.name}</div>
               <div className={styles.typeList}>
                 {params.encounter.pokemon.types.map(t => (
-                  <div key={t} className={`${styles.typeText} ${ptypes[t]}`}>{t}</div>
+                  <div key={t} className={`${styles.typeText} ${ptypes[t]} ${ptypes.type}`}>{t}</div>
                 ))}
               </div>
             </div>
             <div className={styles.pokemonActions}>
               <button className={styles.removeButton} disabled={params.encounter.status.Caught === "Dead"} onClick={e => params.handleRemovePokemon(params.encounter.location)}>Remove Pokemon</button>
-              <select value={params.encounter.status.Caught} onChange={e => params.handlePokemonStatus(params.encounter.location, e.target.value)}>
+              <select className={styles.statusSelect} value={params.encounter.status.Caught} onChange={e => params.handlePokemonStatus(params.encounter.location, e.target.value)}>
                 <option value="Alive">Alive</option>
                 <option value="Dead">Dead</option>
               </select>
