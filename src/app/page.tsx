@@ -5,6 +5,7 @@ import styles from './styles.module.css'
 import Link from 'next/link'
 import { invoke } from '@tauri-apps/api/tauri';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function Home() {
 
@@ -31,9 +32,12 @@ export default function Home() {
       {teams.map(team => (
         <div key={team.id} className={styles.teamBox} onClick={() => handleLoad(team.id)}>
           <div className={styles.boxContents}>
-            <div>
-              <div className={styles.nameHeader}>{team.name}</div>
-              <div>{team.game}</div>
+            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+              <Image alt="pokeball" src="/pokeball.svg" width={45} height={45}/>
+              <div style={{ marginLeft: "10px" }}>
+                <div className={styles.nameHeader}>{team.name}</div>
+                <div>{team.game}</div>
+              </div>
             </div>
             {/* <button className={styles.deleteButton}>Delete</button> */}
           </div>

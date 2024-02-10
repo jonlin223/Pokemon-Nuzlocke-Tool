@@ -22,12 +22,15 @@
 .teamBox {
     border: 3px #515151 solid;
     margin-top: 4px;
-    padding-left: 7px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-top: 1px;
+    padding-bottom: 1px;
     width: 400px;
     cursor: pointer;
-    border-radius: 8px;
+    border-top-left-radius: 33px;
+    border-bottom-left-radius: 33px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
     background-color: #cdb584;
 }
 
@@ -45,6 +48,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .deleteButton {
