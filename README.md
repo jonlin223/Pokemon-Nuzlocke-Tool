@@ -31,6 +31,8 @@ I plan to actually build this thing and link the installer/executable here but t
 ## TODO
 
 - [ ] Make the application actually look decent
+  - [x] Add colouring inspired by pokedex colours
+  - [ ] Polish usability features
 - [ ] Build the application and check for problems there
 
 ## Credits
