@@ -39,18 +39,18 @@ export default function CreateTeam() {
       <h1>Add Your Team Details!</h1>
       <div>
         <label htmlFor="team" className={styles.label}>Name your team!:</label>
-        <input name="team" type="text" id="teamName" style={{marginBottom: "10px"}} className={styles.input} onChange={event => setName(event.target.value)}required></input>
+        <input name="team" type="text" id="teamName" style={{marginBottom: "10px"}} className={`${styles.input} ${styles.textInput}`} onChange={event => setName(event.target.value)}required></input>
       </div>
       <div>
         <label htmlFor="game" className={styles.label}>Select your game!:</label>
-        <select name="game" className={styles.input} onChange={event => setGame(event.target.value)}>
+        <select name="game" className={`${styles.input} ${styles.gameSelect}`} onChange={event => setGame(event.target.value)}>
           {games.map(gs => (
             <option value={gs} key={gs}>{gs}</option>
           ))}
         </select>
       </div>
       <div>
-        <button style={{marginTop: "15px", width: "200px"}} onClick={create}>Create Team</button>
+        <button className={styles.createButton} onClick={create}>Create Team</button>
       </div>
     </div>
   )

@@ -87,6 +87,10 @@
     border-radius: 8px;
 }
 
+.removeButton:active {
+    background-color: #4dbeb7;
+}
+
 .addButton {
     background-color: #84df63;
     border-top: 3px solid #74634b;
@@ -94,6 +98,10 @@
     border-right: 3px solid #74634b;
     border-bottom: 1px solid #618f43;
     border-radius: 8px;
+}
+
+.addButton:active {
+    background-color: #73c752;
 }
 
 .statusSelect {
@@ -108,11 +116,12 @@
 .teamName {
     background-color: #ff6b74;
     width: 300px;
-    height: 50px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 25px;
     border: 3px solid #5e524c;
     margin: 18px;
+    text-align: center;
 }

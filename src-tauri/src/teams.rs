@@ -111,6 +111,11 @@ impl Teams {
             serde_json::to_writer_pretty(file, &json).unwrap();
         });
     }
+
+    pub fn delete_team(&mut self, id: u16) {
+        self.teams.remove(&id);
+        self.save_teams();
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

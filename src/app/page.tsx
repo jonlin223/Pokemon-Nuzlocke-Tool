@@ -16,10 +16,15 @@ export default function Home() {
   useEffect(() => {
     invoke<Array<TeamInfo>>("get_teams_info")
       .then(setTeams)
-  }, [])
+  }, [teams])
 
   const handleLoad = (id: number) => {
     router.push(`/teams/${id}`)
+  }
+
+  const handleDelete = (id: number) => {
+    invoke("delete_team", {id});
+    setTeams(teams.filter(team => team.id !== id))
   }
 
   return (
@@ -30,17 +35,21 @@ export default function Home() {
         </Link>
       </div>
       {teams.map(team => (
-        <div key={team.id} className={styles.teamBox} onClick={() => handleLoad(team.id)}>
-          <div className={styles.boxContents}>
-            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
-              <Image alt="pokeball" src="/pokeball.svg" width={45} height={45}/>
-              <div style={{ marginLeft: "10px" }}>
-                <div className={styles.nameHeader}>{team.name}</div>
-                <div>{team.game}</div>
+        <div key={team.id} className={styles.teamContainer}>
+          <div className={styles.teamBox} onClick={() => handleLoad(team.id)}>
+            <div className={styles.boxContents}>
+              <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                <Image alt="pokeball" src="/pokeball.svg" width={45} height={45}/>
+                <div style={{ marginLeft: "10px" }}>
+                  <div className={styles.nameHeader}>{team.name}</div>
+                  <div>{team.game}</div>
+                </div>
               </div>
             </div>
-            {/* <button className={styles.deleteButton}>Delete</button> */}
           </div>
+          <button className={styles.deleteButton} onClick={() => handleDelete(team.id)}>
+            <Image alt="delete-icon" src="delete-icon.svg" width={20} height={20}/>
+          </button>
         </div>
       ))}
     </div>

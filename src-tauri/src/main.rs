@@ -10,7 +10,7 @@ fn main() {
 
     tauri::Builder::default()
         .manage(Mutex::new(teams))
-        .invoke_handler(tauri::generate_handler![greet, get_games, create_team, get_teams_info, get_team, update_encounter_status, add_pokemon, update_pokemon_status, remove_pokemon, get_pokemon])
+        .invoke_handler(tauri::generate_handler![greet, get_games, create_team, get_teams_info, get_team, update_encounter_status, add_pokemon, update_pokemon_status, remove_pokemon, get_pokemon, delete_team])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -70,4 +70,9 @@ fn remove_pokemon(teams: tauri::State<Mutex<Teams>>, id: u16, location: &str) {
 fn get_pokemon(teams: tauri::State<Mutex<Teams>>, id: u16) -> Vec<Pokemon> {
     let game = teams.lock().unwrap().get_game_from_id(id);
     pokedex::get_pokemon(&game)
+}
+
+#[tauri::command]
+fn delete_team(teams: tauri::State<Mutex<Teams>>, id: u16) {
+    teams.lock().unwrap().delete_team(id);
 }

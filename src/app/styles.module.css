@@ -20,18 +20,25 @@
 }
 
 .teamBox {
+    width: 90%;
     border: 3px #515151 solid;
-    margin-top: 4px;
     padding-left: 4px;
     padding-top: 1px;
     padding-bottom: 1px;
-    width: 400px;
     cursor: pointer;
-    border-top-left-radius: 33px;
-    border-bottom-left-radius: 33px;
+    border-top-left-radius: 28px;
+    border-bottom-left-radius: 28px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     background-color: #cdb584;
+}
+
+.teamContainer {
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 4px;
 }
 
 .nameHeader {
@@ -53,10 +60,17 @@
 
 .deleteButton {
     color: white;
-    background-color: red;
+    background-color: #ff6b74;
+    border-top: 3px solid #74634b;
+    border-left: 3px solid #74634b;
+    border-right: 3px solid #74634b;
+    border-bottom: 1px solid #cf565f;
     margin-right: 5px;
     border-radius: 10px;
-    width: 100px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .newTeamDiv {

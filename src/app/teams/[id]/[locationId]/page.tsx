@@ -63,12 +63,12 @@ export default function Add({ params }: { params: { id: string, locationId: stri
           <PokemonBox pokemon={selectedPokemon} handleSelect={handleSelect}/>
         }
         <div>
-          <input required onChange={e => setNickname(e.target.value)}/>
+          <input className={styles.textInput} required onChange={e => setNickname(e.target.value)}/>
           <button className={styles.addButton} onClick={() => handleAdd()}>Add Pokemon</button>
         </div>
       </div>
       <hr style={{ width: "310px", backgroundColor: "black", height: "1px", color: "black", border: "none" }}/>
-      <input name="filter" className={styles.filterInput} value={filterInput} onChange={e => setFilterInput(e.target.value)}/>
+      <input name="filter" className={`${styles.filterInput} ${styles.textInput}`} value={filterInput} onChange={e => setFilterInput(e.target.value)}/>
       {filteredList.map(p => (
         <PokemonBox pokemon={p} handleSelect={handleSelect} key={p.name} />
       ))}

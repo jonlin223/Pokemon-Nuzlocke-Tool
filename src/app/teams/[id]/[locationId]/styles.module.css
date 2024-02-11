@@ -58,3 +58,12 @@
     border-bottom: 1px solid #618f43;
     border-radius: 8px;
 }
+
+.addButton:active {
+    background-color: #73c752;
+}
+
+.textInput {
+    border: 2px solid #74634b;
+    border-radius: 8px;
+}
